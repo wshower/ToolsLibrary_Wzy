@@ -1,0 +1,199 @@
+apply plugin: 'com.android.library'
+
+//buildTools = '24.0.3'
+//compileSdk = 24
+//targetSdk = 24
+//minSdk = 17
+
+android {
+    compileSdkVersion compileSdk
+    buildToolsVersion buildTools
+
+//    useLibrary 'org.apache.http.legacy'//6.0以后不支持httpClient了，加这句话，提交bintray这样还是会报错，所以添加下面的compile files('libs/org.apache.http.legacy.jar')
+
+    defaultConfig {
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${support_library_version}"
+    compile "com.android.support:design:${support_library_version}"
+
+    compile 'com.wang.avi:library:1.0.1'  //twinklingrefresh需要的，一个动态效果库
+    compile 'com.orhanobut:logger:1.15'
+
+    //http://stackoverflow.com/questions/33773763/could-not-normalize-path-in-bintrayupload
+//    You can add org.apache.http.legacy.jar in your libs folder. You can find this jar in Android/Sdk/platforms/android-23/optional
+//    I also added this line to my app.gradle file
+//    compile files('libs/org.apache.http.legacy.jar')
+//    This resolved all my errors that were caused because google removed support of Apache HTTP client. Do not changed compileSdkVersion 23 to 22, I think this solution is better.
+    //23版本没有httpclient，会报错Could not normalize path for file 'C:\Android_sdk\platforms\android-23\android.jar;C:\Android_sdk\platforms\android-23\optional\org.apache.http.legacy.jar'.
+    compile files('libs/org.apache.http.legacy.jar')
+    compile "com.android.support:recyclerview-v7:${support_library_version}"
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+
+    //*************************retrofit的一大堆   Start   http://square.github.io/retrofit/**************************
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    //    Gson: com.squareup.retrofit2:converter-gson
+    //    Jackson: com.squareup.retrofit2:converter-jackson
+    //    Moshi: com.squareup.retrofit2:converter-moshi
+    //    Protobuf: com.squareup.retrofit2:converter-protobuf
+    //    Wire: com.squareup.retrofit2:converter-wire
+    //    Simple XML: com.squareup.retrofit2:converter-simplexml
+    //    Scalars (primitives, boxed, and String): com.squareup.retrofit2:converter-scalars
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    compile 'com.squareup.retrofit2:converter-scalars:2.0.2'
+    //    一般使用Retrofit还会使用它和RxJava配套使用，因此还需要添加如下依赖
+    compile 'io.reactivex:rxjava:1.1.3'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    //    为了使用更多的java注解添加下面的依赖
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    //*************************retrofit的一大堆   End   http://square.github.io/retrofit/**************************
+
+}
+
+
+//********************************************JitPack    start************************************************
+
+//这个跟Jcenter一样的插件
+apply plugin: 'com.github.dcendents.android-maven'
+//你的Github用户名替换一下
+group='com.github.wshower'
+
+
+//********************************************JitPack    end**************************************************
+
+
+
+
+////*********************************************JCenter   start**************************************************
+//
+////http://blog.csdn.net/yanzhenjie1003/article/details/51672530
+//
+//// 这里添加下面两行代码。
+//apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.jfrog.bintray'
+//
+//// 定义两个链接，下面会用到。
+//def siteUrl = ' ' // 项目主页。
+//def gitUrl = ' ' // Git仓库的url。
+//
+//// 项目引用的版本号，比如compile 'com.yanzhenjie:andserver:1.0.1'中的1.0.1就是这里配置的。
+//version = "1.0.5"
+//// 唯一包名，比如compile 'com.yanzhenjie:andserver:1.0.1'中的com.yanzhenjie就是这里配置的。
+//group = "com.wzy"
+//
+//install {
+//    repositories.mavenInstaller {
+//        // 生成pom.xml和参数
+//        pom {
+//            project {
+//                packaging 'aar'
+//                // 项目描述，复制我的话，这里需要修改。
+//                name 'toolslibrary_wzy'// 可选，项目名称。
+//                description '2017-1-9 1.0.5 '// 可选，项目描述。
+//                url siteUrl // 项目主页，这里是引用上面定义好。
+//
+//                // 软件开源协议，现在一般都是Apache License2.0吧，复制我的，这里不需要修改。
+//                licenses {
+//                    license {
+//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//
+//                //填写开发者基本信息，复制我的，这里需要修改。
+//                developers {
+//                    developer {
+//                        id 'wzy' // 开发者的id。
+//                        name 'wzy' // 开发者名字。
+//                        email '3032535602@qq.com' // 开发者邮箱。
+//                    }
+//                }
+//
+//                // SCM，复制我的，这里不需要修改。
+//                scm {
+//                    connection gitUrl // Git仓库地址。
+//                    developerConnection gitUrl // Git仓库地址。
+//                    url siteUrl // 项目主页。
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//// 生成jar包的task，不需要修改。
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//// 生成jarDoc的task，不需要修改。
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    // destinationDir = file("../javadoc/")
+//    failOnError false // 忽略注释语法错误，如果用jdk1.8你的注释写的不规范就编译不过。
+//}
+//// 生成javaDoc的jar，不需要修改。
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
+//
+//// 这里是读取Bintray相关的信息，我们上传项目到github上的时候会把gradle文件传上去，所以不要把帐号密码的信息直接写在这里，写在local.properties中，这里动态读取。
+//Properties properties = new Properties()
+//properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//bintray {
+//    user = properties.getProperty("bintray.user") // Bintray的用户名。
+//    key = properties.getProperty("bintray.apikey") // Bintray刚才保存的ApiKey。
+//
+//    configurations = ['archives']
+//    pkg {
+//        repo = "maven"  // 上传到maven库。
+//        name = "toolslibrary_wzy"
+//        // 发布到Bintray上的项目名字，这里的名字不是compile 'com.yanzhenjie:andserver:1.0.1'中的andserver。
+//        userOrg = "wzy"
+//        //注册时的ordid   不加会报错：Could not create package 'wshower/maven/toolslibrary_wzy': HTTP/1.1 404 Not Found [message:Repo 'maven' was not found]
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = ["Apache-2.0"]
+//        publish = true // 是否是公开项目。
+//    }
+//}
+//
+////有放在bintray{}里面的，暂未知、、、、、、、、
+////提示GBK什么的乱码，一般都是中文问题，你提交的代码里面有中文注释或者其他的中文，解决办法就是添加上面的代码;
+////或者task javadoc(type: Javadoc){}中的failOnError false
+//javadoc {
+//    options {
+//        encoding "UTF-8"
+//        charSet 'UTF-8'
+//        author true
+//        version true
+//        links "http://docs.oracle.com/javase/7/docs/api"
+//    }
+//}
+//
+////*********************************************JCenter   end**************************************************************************

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="line" >
+    <stroke
+        android:dashGap="2dp"
+        android:dashWidth="5dp"
+        android:width="1px"
+        android:color="@android:color/black" />
+
+</shape>
+
+
+    <!--其中，破折线的宽度为dashWith，
+    破折线之间的空隙的宽度为dashGap，当dashGap=0dp时，为实线
+    stroke中width为虚线的高度-->
+
+
+
+    <!--细的虚线 深灰
+           layout_height必须大于shape中的width，否则不显示
+           layerType不设置则为实线
+       -->
+<!--<style name="xuxian_xi_shen">-->
+<!--<item name="android:layout_width">match_parent</item>-->
+<!--<item name="android:layout_height">2px</item>-->
+<!--<item name="android:background">@drawable/line_xuxian</item>-->
+<!--<item name="android:layerType">software</item>-->
+<!--</style>-->

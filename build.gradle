@@ -1,0 +1,46 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.2.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'//jcenter 和 jitpack都要的(studio版本升级后貌似也要升级http://stackoverflow.com/questions/38825451/no-service-of-type-factory-available-in-projectscopeservices)
+//        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'//jcenter 和 jitpack都要的
+
+//        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'//上传到Bintray需要gradle-bintray-plugin的支持
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+
+ext {
+
+    mavenGroup = 'pub.devrel'
+    mavenArtifactId = 'easypermissions'
+    mavenVersion = '0.2.1'
+
+    bintrayOrg = 'easygoogle'
+
+    support_library_version = '24.2.1'
+
+    buildTools = '24.0.3'
+    compileSdk = 24
+    targetSdk = 24
+    minSdk = 16
+}
